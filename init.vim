@@ -6,7 +6,7 @@ nnoremap <space>rl :so ~/.config/nvim/init.vim<CR>
 nnoremap <space>rc :e ~/.config/nvim/init.vim<CR>
 
 set number
-set relativenumber
+" set relativenumber
 set expandtab
 set tabstop=2
 set shiftwidth=2
@@ -57,6 +57,10 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'akinsho/toggleterm.nvim'
 
+  Plug 'kyazdani42/nvim-tree.lua'
+  
+  Plug 'goldfeld/ctrlr.vim'
+
 call plug#end()
 " =======================
 " ===   plugins  end  ===
@@ -82,7 +86,7 @@ nnoremap <LEADER>e :NERDTreeToggle<CR>
 
 
 " ==== Yggdroot/LeaderF ====
-let g:Lf_WindowPosition='right'
+let g:Lf_WindowPosition='popup'
 let g:Lf_PreviewInPopup=1
 let g:Lf_CommandMap = {
 \   '<C-p>': ['<C-k>'],
@@ -251,5 +255,12 @@ require("toggleterm").setup{
   persist_size = false,
   direction = 'vertical',
   size = 100,
+}
+
+require'nvim-tree'.setup {
+  update_focused_file = {
+    enable = true,
+    update_cwd = true,
+  },
 }
 EOF

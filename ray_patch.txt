@@ -1,0 +1,73 @@
+diff --git a/.gitignore b/.gitignore
+index a0fa0c0c6..f236755b7 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -210,3 +210,6 @@ workflow_data/
+ 
+ # vscode java extention generated
+ .factorypath
++/external
++/compile_commands.json
++/.cache/
+diff --git a/BUILD.bazel b/BUILD.bazel
+index dbeeb4e60..7258773d6 100644
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -1,6 +1,10 @@
+ # Bazel build
+ # C/C++ documentation: https://docs.bazel.build/versions/master/be/c-cpp.html
+ 
++load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
++
++load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_setup")
++
+ load("@rules_proto//proto:defs.bzl", "proto_library")
+ load("@rules_python//python:defs.bzl", "py_library")
+ load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_proto_library", "cc_test")
+@@ -2537,3 +2541,22 @@ genrule(
+     """,
+     local = 1,
+ )
++
++hedron_compile_commands_setup()
++
++
++load("@hedron_compile_commands//:refresh_compile_commands.bzl", "refresh_compile_commands")
++
++refresh_compile_commands(
++    name = "refresh_compile_commands",
++
++    # Specify the targets of interest.
++    # For example, specify a dict of targets and any flags required to build.
++    targets = {
++      # "//:my_output_1": "--important_flag1 --important_flag2=true", 
++      "//:ray_pkg": "",
++    },
++    # No need to add flags already in .bazelrc. They're automatically picked up.
++    # If you don't need flags, a list of targets is also okay, as is a single target string.
++    # Wildcard patterns, like //... for everything, *are* allowed here, just like a build.
++)
+\ No newline at end of file
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index 7078f4aff..ce1bdf026 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -84,6 +84,18 @@ def auto_http_archive(
+     )
+ 
+ def ray_deps_setup():
++    # Hedron's Compile Commands Extractor for Bazel
++    # https://github.com/hedronvision/bazel-compile-commands-extractor
++    http_archive(
++        name = "hedron_compile_commands",
++
++        # Replace the commit hash in both places (below) with the latest, rather than using the stale one here. 
++        # Even better, set up Renovate and let it do the work for you (see "Suggestion: Updates" in the README).
++        url = "https://github.com/hedronvision/bazel-compile-commands-extractor/archive/af9af15f7bc16fc3e407e2231abfcb62907d258f.tar.gz",
++        strip_prefix = "bazel-compile-commands-extractor-af9af15f7bc16fc3e407e2231abfcb62907d258f",
++        # When you first run this tool, it'll recommend a sha256 hash to put here with a message like: "DEBUG: Rule 'hedron_compile_commands' indicated that a canonical reproducible form can be obtained by modifying arguments sha256 = ..." 
++    )
++    
+     # Explicitly bring in protobuf dependency to work around
+     # https://github.com/ray-project/ray/issues/14117
+     http_archive(
