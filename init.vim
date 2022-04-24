@@ -52,6 +52,11 @@ call plug#begin('~/.config/nvim/plugged')
   " debug
   Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-rust --enable-python'}
   
+  " git blame
+  Plug 'zivyangll/git-blame.vim'
+
+  Plug 'akinsho/toggleterm.nvim'
+
 call plug#end()
 " =======================
 " ===   plugins  end  ===
@@ -161,7 +166,7 @@ function! s:show_documentation()
 endfunction
 
 " highlight link CocHighlightText Visual
-" autocmd CursorHold * silent call CocActionAsync('highlight')   " TODO
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f <Plug>(coc-format-selected)
@@ -229,5 +234,22 @@ endfunction
 command! -nargs=0 Gvimspector :call s:generate_vimspector_conf()
 
 nmap <Leader>v <Plug>VimspectorBalloonEval
-xmap <Leader>v <Plug>vimspectorBalloonEval
+                                    xmap <Leader>v <Plug>vimspectorBalloonEval
 
+" git blame
+nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
+
+" Exit terminal by ESC
+tnoremap <Esc> <C-\><C-n><CR>
+
+" ToggleTerminal
+" set
+let g:toggleterm_terminal_mapping = '<C-t>'
+
+lua << EOF
+require("toggleterm").setup{
+  persist_size = false,
+  direction = 'vertical',
+  size = 100,
+}
+EOF
