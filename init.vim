@@ -45,6 +45,7 @@ call plug#begin('~/.config/nvim/plugged')
   " highlight
   Plug 'cateduo/vsdark.nvim'
   Plug 'jackguo380/vim-lsp-cxx-highlight'
+  Plug 'Mofiqul/vscode.nvim'
   
   " lsp
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -54,12 +55,16 @@ call plug#begin('~/.config/nvim/plugged')
   
   " git blame
   Plug 'zivyangll/git-blame.vim'
+  Plug 'f-person/git-blame.nvim'
+  Plug 'APZelos/blamer.nvim'
 
   Plug 'akinsho/toggleterm.nvim'
 
   Plug 'kyazdani42/nvim-tree.lua'
   
   Plug 'goldfeld/ctrlr.vim'
+
+  Plug 'karb94/neoscroll.nvim'
 
 call plug#end()
 " =======================
@@ -86,7 +91,7 @@ nnoremap <LEADER>e :NERDTreeToggle<CR>
 
 
 " ==== Yggdroot/LeaderF ====
-let g:Lf_WindowPosition='popup'
+let g:Lf_WindowPosition='right'
 let g:Lf_PreviewInPopup=1
 let g:Lf_CommandMap = {
 \   '<C-p>': ['<C-k>'],
@@ -95,15 +100,21 @@ let g:Lf_CommandMap = {
 \}
 nmap <leader>f :Leaderf file<CR>
 nmap <leader>b :Leaderf! buffer<CR>
-nmap <leader>F :Leaderf rg<CR>
+nmap <leader>F :Leaderf rg --stayOpen<CR>
+" Search the current word under cursor
+noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer --stayOpen -e %s ", expand("<cword>"))<CR>
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg --stayOpen -e %s ", expand("<cword>"))<CR>
 let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
 
 
 " ==== cateduo/vsdark.nvim ====
 
 set termguicolors
-let g:vsdark_style = "dark"
-colorscheme vsdark
+"let g:vsdark_style = "dark"
+"colorscheme vsdark
+
+let g:vscode_italic_comment = 1
+colorscheme vscode
 
 
 " ==== jackguo380/vim-lsp-cxx-highlight ====
@@ -242,6 +253,11 @@ nmap <Leader>v <Plug>VimspectorBalloonEval
 
 " git blame
 nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
+" Set f-person/git-blame.nvim
+let g:gitblame_enabled = 0
+" Set APZelos/blamer.nvim
+let g:blamer_enabled = 1
+highlight Blamer guifg=lightgrey
 
 " Exit terminal by ESC
 tnoremap <Esc> <C-\><C-n><CR>
@@ -263,4 +279,13 @@ require'nvim-tree'.setup {
     update_cwd = true,
   },
 }
+
+require('neoscroll').setup({
+  hide_cursor = true,
+  -- All these keys will be mapped to their corresponding default scrolling animation
+  mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>',
+              '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
+  hide_cursor = true,          -- Hide cursor while scrolling
+  stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+})
 EOF
