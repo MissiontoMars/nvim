@@ -24,7 +24,6 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
 " =======================
 " ===  plugins  begin ===
 " =======================
@@ -66,6 +65,12 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'karb94/neoscroll.nvim'
 
+  Plug 'vim-scripts/a.vim'
+
+  " Plug 'gcmt/wildfire.vim'
+
+  Plug 'airblade/vim-rooter'
+
 call plug#end()
 " =======================
 " ===   plugins  end  ===
@@ -92,19 +97,78 @@ nnoremap <LEADER>e :NERDTreeToggle<CR>
 
 " ==== Yggdroot/LeaderF ====
 let g:Lf_WindowPosition='right'
-let g:Lf_PreviewInPopup=1
+" let g:Lf_PreviewInPopup=1
 let g:Lf_CommandMap = {
 \   '<C-p>': ['<C-k>'],
 \   '<C-k>': ['<C-p>'],
-\   '<C-j>': ['<C-n>']
+\   '<C-j>': ['<C-n>'],
 \}
 nmap <leader>f :Leaderf file<CR>
 nmap <leader>b :Leaderf! buffer<CR>
 nmap <leader>F :Leaderf rg --stayOpen<CR>
-" Search the current word under cursor
-noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer --stayOpen -e %s ", expand("<cword>"))<CR>
-noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg --stayOpen -e %s ", expand("<cword>"))<CR>
 let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
+" let g:Lf_RootMarkers = ['.git', '.hg', '.svn']
+" A - the nearest ancestor of current file that contains one of directories
+"         or files defined in |g:Lf_RootMarkers|. Fall back to 'c' if no such
+"         ancestor directory found.
+" let g:Lf_WorkingDirectoryMode = 'a'
+" let g:Lf_WorkingDirectory = finddir('.git', '.;')
+
+" let g:Lf_PopupColorscheme = 'vscode'
+
+" I don't know why dark is used.
+let g:Lf_PopupPalette = {
+    \  'light': {
+    \      'Lf_hl_match': {
+    \                'gui': 'NONE',
+    \                'font': 'NONE',
+    \                'guifg': 'NONE',
+    \                'guibg': 'lightgrey',
+    \                'cterm': 'NONE',
+    \                'ctermfg': 'NONE',
+    \                'ctermbg': '236'
+    \              },
+    \      'Lf_hl_cursorline': {
+    \                'gui': 'NONE',
+    \                'font': 'NONE',
+    \                'guifg': 'NONE',
+    \                'guibg': 'lightgrey',
+    \                'cterm': 'NONE',
+    \                'ctermfg': 'NONE',
+    \                'ctermbg': '236'
+    \              },
+    \      },
+    \  'dark': {
+    \      'Lf_hl_match': {
+    \                'gui': 'NONE',
+    \                'font': 'NONE',
+    \                'guifg': 'red',
+    \                'guibg': 'lightgrey',
+    \                'cterm': 'NONE',
+    \                'ctermfg': 'red',
+    \                'ctermbg': '236'
+    \              },
+    \      'Lf_hl_match0': {
+    \                'gui': 'NONE',
+    \                'font': 'NONE',
+    \                'guifg': 'red',
+    \                'guibg': 'lightgrey',
+    \                'cterm': 'NONE',
+    \                'ctermfg': 'red',
+    \                'ctermbg': '236'
+    \              },
+    \      'Lf_hl_cursorline': {
+    \                'gui': 'NONE',
+    \                'font': 'NONE',
+    \                'guifg': 'red',
+    \                'guibg': 'lightgrey',
+    \                'cterm': 'NONE',
+    \                'ctermfg': 'red',
+    \                'ctermbg': '236'
+    \              },
+    \      },
+    \  }
+
 
 
 " ==== cateduo/vsdark.nvim ====
@@ -271,6 +335,15 @@ require("toggleterm").setup{
   persist_size = false,
   direction = 'vertical',
   size = 100,
+  -- shade_terminals = false,
+  shade_filetypes = { "none", "fzf" },
+  highlights = {
+    -- highlights which map to a highlight group name and a table of it's values
+    -- NOTE: this is only a subset of values, any group placed here will be set for the terminal window split
+    Normal = {
+      guibg = 'black',
+    },
+  },
 }
 
 require'nvim-tree'.setup {
@@ -289,3 +362,40 @@ require('neoscroll').setup({
   stop_eof = true,             -- Stop at <EOF> when scrolling downwards
 })
 EOF
+
+
+" Leaderf Search the current word under cursor
+nnoremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer --stayOpen -e %s ", expand("<cword>"))<CR><CR>
+nnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg --stayOpen -e %s ", expand("<cword>"))<CR><CR>
+
+" Only highlight the cursor line in active buffer.
+au BufEnter * setlocal cursorline
+au BufLeave * setlocal nocursorline
+
+" vim-rooter
+let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']
+let g:rooter_change_directory_for_non_project_files = ''
+
+
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
