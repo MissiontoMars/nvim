@@ -63,13 +63,21 @@ call plug#begin('~/.config/nvim/plugged')
   
   Plug 'goldfeld/ctrlr.vim'
 
-  Plug 'karb94/neoscroll.nvim'
+  " Plug 'karb94/neoscroll.nvim'
 
   Plug 'vim-scripts/a.vim'
 
   " Plug 'gcmt/wildfire.vim'
 
   Plug 'airblade/vim-rooter'
+
+  Plug 'morhetz/gruvbox'
+
+  Plug 'voldikss/vim-translator'
+
+  Plug 'justinmk/vim-sneak'
+
+  Plug 'moll/vim-bbye'
 
 call plug#end()
 " =======================
@@ -96,7 +104,8 @@ nnoremap <LEADER>e :NERDTreeToggle<CR>
 
 
 " ==== Yggdroot/LeaderF ====
-let g:Lf_WindowPosition='right'
+let g:Lf_WindowPosition='popup'
+let g:Lf_PopupHeight = float2nr(&lines * 0.8)
 " let g:Lf_PreviewInPopup=1
 let g:Lf_CommandMap = {
 \   '<C-p>': ['<C-k>'],
@@ -105,7 +114,7 @@ let g:Lf_CommandMap = {
 \}
 nmap <leader>f :Leaderf file<CR>
 nmap <leader>b :Leaderf! buffer<CR>
-nmap <leader>F :Leaderf rg --stayOpen<CR>
+nmap <leader>F :Leaderf rg <CR>
 let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
 " let g:Lf_RootMarkers = ['.git', '.hg', '.svn']
 " A - the nearest ancestor of current file that contains one of directories
@@ -177,8 +186,10 @@ set termguicolors
 "let g:vsdark_style = "dark"
 "colorscheme vsdark
 
-let g:vscode_italic_comment = 1
-colorscheme vscode
+"let g:vscode_italic_comment = 1
+"colorscheme vscode
+
+colorscheme gruvbox
 
 
 " ==== jackguo380/vim-lsp-cxx-highlight ====
@@ -321,7 +332,7 @@ nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
 let g:gitblame_enabled = 0
 " Set APZelos/blamer.nvim
 let g:blamer_enabled = 1
-highlight Blamer guifg=lightgrey
+highlight Blamer guifg='#808080'
 
 " Exit terminal by ESC
 tnoremap <Esc> <C-\><C-n><CR>
@@ -353,20 +364,13 @@ require'nvim-tree'.setup {
   },
 }
 
-require('neoscroll').setup({
-  hide_cursor = true,
-  -- All these keys will be mapped to their corresponding default scrolling animation
-  mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>',
-              '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
-  hide_cursor = true,          -- Hide cursor while scrolling
-  stop_eof = true,             -- Stop at <EOF> when scrolling downwards
-})
 EOF
 
 
 " Leaderf Search the current word under cursor
 nnoremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer --stayOpen -e %s ", expand("<cword>"))<CR><CR>
-nnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg --stayOpen -e %s ", expand("<cword>"))<CR><CR>
+" Using jLeaderf! rg --stayOpen -e if keep the prompt window
+nnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
 
 " Only highlight the cursor line in active buffer.
 au BufEnter * setlocal cursorline
@@ -399,3 +403,8 @@ function! AutoHighlightToggle()
     return 1
   endif
 endfunction
+
+" vim-bbye
+" Buffer delete vs wipeout
+" Vim has two commands for closing a buffer: :bdelete and :bwipeout. The former removes the file from the buffer list, clears its options, variables and mappings. However, it remains in the jumplist, so Ctrl-o takes you back and reopens the file. If that's not what you want, use :bwipeout or Bbye's equivalent :Bwipeout where you would've used :bdelete.
+nnoremap <Leader>q :Bwipeout<CR>
