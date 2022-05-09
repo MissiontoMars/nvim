@@ -1,35 +1,33 @@
 {
+  "clangd.semanticHighlighting": true,
+  "coc.preferences.semanticTokensHighlights": false,
+  "semanticTokens.filetypes": ["c", "cpp", "cc", "h", "py", "java"],
   "suggest.labelMaxLength": 60,
   "suggest.completionItemKindLabels": {
     "class": "\uf0e8",
     "color": "\ue22b"
   },
   "cmake.formatter": "cmake-format",
+  "clangd.path":"/Library/Developer/CommandLineTools/usr/bin/clangd",
+  "clangd.inlayHints.enable": false,
+  "clangd.arguments": ["--background-index=false"],
+  "clangd.disableDiagnostics": true,
   "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": [ "c", "cc", "cpp", "c++", "objc", "objcpp" ],
-      "rootPatterns": [ "compile_commands.json", ".git/", ".hg/", ".vscode", ".vim/", "BUILD.bazel" ],
-      "initializationOptions": {
-        "highlight": {"lsRanges": true},
-        "cache": {
-          "directory": "/tmp/ccls"
-        },
-        "clang": {
-          "resourceDir": "/Library/Developer/CommandLineTools/usr/lib/clang/11.0.3"
-        },
-        "completion": {
-          "detailedLable": true,
-          "placeholder": true
-        },
-        "index": {
-          "onChange": false,
-          "initialNoLinkage": true,
-          "threads": 2
-        },
-        "compilationDatabaseDirectory": ".vscode/"
+      "coc-clangd":
+      {
+  "args": ["--resource-dir=/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include","--background-index=false"],
+        "path": "/Library/Developer/CommandLineTools/usr/bin/clangd",
+        "command": "clangd",
+        "rootPatterns": ["compile_flags.txt",
+                      "compile_commands.json"],
+        "filetypes":["c",
+                  "cc",
+                  "cpp",
+                  "c++",
+                  "objc",
+                  "objcpp"]
       }
-    }
-  }
+    },
+  "colors.filetypes": ["*"]
 }
 
