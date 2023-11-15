@@ -16,7 +16,8 @@ set smartcase
 set notimeout
 set mouse=a
 
-let mapleader = "\<SPACE>" " defualt ,
+" let mapleader = "\<SPACE>" " defualt ,
+let mapleader = "-" " defualt ,
 
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   :exe '!curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
@@ -31,7 +32,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tomtom/tcomment_vim'
   
   " terminal
-  Plug 'skywind3000/vim-terminal-help'
+  Plug 'skywind3008/vim-terminal-help'
   
   " file explorer
   Plug 'preservim/nerdtree'
@@ -39,12 +40,12 @@ call plug#begin('~/.config/nvim/plugged')
   " file finder
   Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
   Plug 'voldikss/LeaderF-floaterm'
+  Plug 'voldikss/vim-floaterm'
 
   " highlight
   Plug 'cateduo/vsdark.nvim'
   Plug 'jackguo380/vim-lsp-cxx-highlight'
-  Plug 'Mofiqul/vscode.nvim'
-  Plug 'projekt0n/github-nvim-theme'
+
   
   " lsp
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -81,10 +82,8 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'vimwiki/vimwiki'
 
-  Plug 'voldikss/vim-floaterm'
 
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'voldikss/fzf-floaterm'
 
   Plug 'godlygeek/tabular'
   " Plug 'preservim/vim-markdown'
@@ -104,6 +103,34 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'miyakogi/conoline.vim'
 
   Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+
+  Plug 'nyngwang/NeoZoom.lua'
+
+  " colorscheme
+  Plug 'rakr/vim-one'
+  Plug 'Mofiqul/vscode.nvim'
+  Plug 'projekt0n/github-nvim-theme'
+  Plug 'sainnhe/everforest'
+  Plug 'sainnhe/edge'
+  Plug 'dracula/vim'
+  Plug 'mhartington/oceanic-next'
+  Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+  Plug 'aonemd/quietlight.vim'
+  Plug 'rmehri01/onenord.nvim'
+  Plug 'EdenEast/nightfox.nvim'
+
+  " syntax
+  Plug 'vim-python/python-syntax'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+  Plug 'ahmedkhalf/project.nvim'
+
+  " Plug 'folke/flash.nvim'
+
+  " AI
+  Plug 'git@code.byted.org:chenjiaqi.cposture/vim-ai.git'
+
+  Plug 'nvim-lualine/lualine.nvim'
 
 call plug#end()
 " =======================
@@ -131,7 +158,7 @@ nnoremap <LEADER>e :NERDTreeToggle<CR>
 
 " ==== Yggdroot/LeaderF ====
 let g:Lf_WindowPosition='popup'
-let g:Lf_PopupHeight = float2nr(&lines * 0.8)
+let g:Lf_PopupHeight = float2nr(&lines * 0.9)
 " let g:Lf_PreviewInPopup=1
 let g:Lf_CommandMap = {
 \   '<C-p>': ['<C-k>'],
@@ -152,62 +179,63 @@ let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
 " let g:Lf_PopupColorscheme = 'vscode'
 
 " I don't know why dark is used.
-let g:Lf_PopupPalette = {
-    \  'light': {
-    \      'Lf_hl_match': {
-    \                'gui': 'NONE',
-    \                'font': 'NONE',
-    \                'guifg': 'NONE',
-    \                'guibg': 'lightgrey',
-    \                'cterm': 'NONE',
-    \                'ctermfg': 'NONE',
-    \                'ctermbg': '236'
-    \              },
-    \      'Lf_hl_cursorline': {
-    \                'gui': 'NONE',
-    \                'font': 'NONE',
-    \                'guifg': 'NONE',
-    \                'guibg': 'lightgrey',
-    \                'cterm': 'NONE',
-    \                'ctermfg': 'NONE',
-    \                'ctermbg': '236'
-    \              },
-    \      },
-    \  'dark': {
-    \      'Lf_hl_match': {
-    \                'gui': 'NONE',
-    \                'font': 'NONE',
-    \                'guifg': 'red',
-    \                'guibg': 'lightgrey',
-    \                'cterm': 'NONE',
-    \                'ctermfg': 'red',
-    \                'ctermbg': '236'
-    \              },
-    \      'Lf_hl_match0': {
-    \                'gui': 'NONE',
-    \                'font': 'NONE',
-    \                'guifg': 'red',
-    \                'guibg': 'lightgrey',
-    \                'cterm': 'NONE',
-    \                'ctermfg': 'red',
-    \                'ctermbg': '236'
-    \              },
-    \      'Lf_hl_cursorline': {
-    \                'gui': 'NONE',
-    \                'font': 'NONE',
-    \                'guifg': 'red',
-    \                'guibg': 'lightgrey',
-    \                'cterm': 'NONE',
-    \                'ctermfg': 'red',
-    \                'ctermbg': '236'
-    \              },
-    \      },
-    \  }
+"let g:Lf_PopupPalette = {
+"    \  'light': {
+"    \      'Lf_hl_match': {
+"    \                'gui': 'NONE',
+"    \                'font': 'NONE',
+"    \                'guifg': 'NONE',
+"    \                'guibg': 'lightgrey',
+"    \                'cterm': 'NONE',
+"    \                'ctermfg': 'NONE',
+"    \                'ctermbg': '236'
+"    \              },
+"    \      'Lf_hl_cursorline': {
+"    \                'gui': 'NONE',
+"    \                'font': 'NONE',
+"    \                'guifg': 'NONE',
+"    \                'guibg': 'lightgrey',
+"    \                'cterm': 'NONE',
+"    \                'ctermfg': 'NONE',
+"    \                'ctermbg': '236'
+"    \              },
+"    \      },
+"    \  'dark': {
+"    \      'Lf_hl_match': {
+"    \                'gui': 'NONE',
+"    \                'font': 'NONE',
+"    \                'guifg': 'red',
+"    \                'guibg': 'lightgrey',
+"    \                'cterm': 'NONE',
+"    \                'ctermfg': 'red',
+"    \                'ctermbg': '236'
+"    \              },
+"    \      'Lf_hl_match0': {
+"    \                'gui': 'NONE',
+"    \                'font': 'NONE',
+"    \                'guifg': 'red',
+"    \                'guibg': 'lightgrey',
+"    \                'cterm': 'NONE',
+"    \                'ctermfg': 'red',
+"    \                'ctermbg': '236'
+"    \              },
+"    \      'Lf_hl_cursorline': {
+"    \                'gui': 'NONE',
+"    \                'font': 'NONE',
+"    \                'guifg': 'red',
+"    \                'guibg': 'lightgrey',
+"    \                'cterm': 'NONE',
+"    \                'ctermfg': 'red',
+"    \                'ctermbg': '236'
+"    \              },
+"    \      },
+"    \  }
 
 
 
 " ==== cateduo/vsdark.nvim ====
 
+set t_Co=256
 set termguicolors
 "let g:vsdark_style = "dark"
 "colorscheme vsdark
@@ -215,9 +243,19 @@ set termguicolors
 "let g:vscode_italic_comment = 1
 "colorscheme vscode
 
-colorscheme gruvbox
+"colorscheme gruvbox
 
+"set background=dark
+"let g:everforest_background = 'hard'
+"colorscheme everforest
 
+"set background=light
+"colorscheme catppuccin-latte
+
+"set background=light
+"colorscheme quietlight
+
+colorscheme dracula
 
 " ==== jackguo380/vim-lsp-cxx-highlight ====
 
@@ -316,7 +354,55 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
 endif
 
 " statusline support
-" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}  "TODO
+" let g:coc_git_status=1
+" let b:coc_git_status=1
+let b:coc_git_blame=1
+" " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}  "TODO
+" set statusline^=%{get(g:,'coc_git_status','')}%{get(b:,'coc_git_status','')}%{get(b:,'coc_git_blame','')}
+"
+
+lua << END
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'auto',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    globalstatus = false,
+    refresh = {
+      statusline = 1000,
+      tabline = 1000,
+      winbar = 1000,
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'b:coc_git_blame', 'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+END
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -355,7 +441,7 @@ endfunction
 command! -nargs=0 Gvimspector :call s:generate_vimspector_conf()
 
 nmap <Leader>v <Plug>VimspectorBalloonEval
-                                    xmap <Leader>v <Plug>vimspectorBalloonEval
+xmap <Leader>v <Plug>VimspectorBalloonEval
 
 " git blame
 nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
@@ -368,33 +454,32 @@ highlight Blamer guifg='#808080'
 " Exit terminal by ESC
 tnoremap <Esc> <C-\><C-n><CR>
 
+
 " ToggleTerminal
 " set
 let g:toggleterm_terminal_mapping = '<C-t>'
 
 lua << EOF
-require("toggleterm").setup{
+require'toggleterm'.setup {
   persist_size = false,
   direction = 'vertical',
   size = 100,
-  -- shade_terminals = false,
   shade_filetypes = { "none", "fzf" },
   highlights = {
-    -- highlights which map to a highlight group name and a table of it's values
-    -- NOTE: this is only a subset of values, any group placed here will be set for the terminal window split
     Normal = {
       guibg = 'black',
     },
   },
 }
+EOF
 
+lua << EOF
 require'nvim-tree'.setup {
   update_focused_file = {
     enable = true,
     update_cwd = true,
   },
 }
-
 local Path = require('plenary.path')
 require('session_manager').setup({
   sessions_dir = Path:new(vim.fn.stdpath('data'), 'sessions'), -- The directory where the session files will be saved.
@@ -409,7 +494,6 @@ require('session_manager').setup({
   autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
   max_path_length = 80,  -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
 })
-
 require('bufferline').setup {
   options = {
     mode = "buffers", -- set to "tabs" to only show tabpages instead
@@ -481,15 +565,103 @@ require('bufferline').setup {
     sort_by = 'insert_after_current'
   }
 }
-
-
+require('neo-zoom').setup { -- use the defaults or UNCOMMENT and change any one to overwrite
+      -- left_ratio = 0.2,
+      -- top_ratio = 0.03,
+      -- width_ratio = 0.67,
+      -- height_ratio = 0.9
+}
 EOF
+
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = false,
+
+  -- List of parsers to ignore installing (or "all")
+  ignore_install = { "javascript" },
+
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+  highlight = {
+    enable = true,
+
+    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<CR>", -- set to `false` to disable one of the mappings
+      node_incremental = "<CR>",
+      scope_incremental = "<TAB>",
+      node_decremental = "<BS>",
+    },
+  },
+}
+EOF
+
+lua << EOF
+  require("project_nvim").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+    patterns = { ".git", "Makefile", "*.sln", "build/env.sh" },
+  }
+EOF
+
+"lua << EOF
+"    require('flash').setup{
+"        search = {
+"            mode = function(str)
+"              return "\\<" .. str
+"            end
+"        },
+"        jump = {
+"            autojump = true,
+"        },
+"        label = {
+"            rainbow = {
+"              enabled = true,
+"              shade = 9,
+"            }
+"        }
+"    }
+"
+"    vim.keymap.set({"n","o","x"},"j", function() require("flash").jump() end, {desc="Flash"})
+"    vim.keymap.set({"i"}, "<C-j>", function() require("flash").jump() end, {desc="Flash"})
+"
+"EOF
+
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set nofoldenable                     " Disable folding at startup.
 
 
 " Leaderf Search the current word under cursor
 nnoremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer --stayOpen -e %s ", expand("<cword>"))<CR><CR>
 " Using jLeaderf! rg --stayOpen -e if keep the prompt window
-nnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+nnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -g !*test* -e %s ", expand("<cword>"))<CR>
 
 " Only highlight the cursor line in active buffer.
 " au BufEnter * setlocal cursorline
@@ -554,7 +726,7 @@ let g:vim_markdown_json_frontmatter = 1  " for JSON format
 " Fix cursor missing
 let g:coc_disable_transparent_cursor = 1
 
-let g:conoline_use_colorscheme_default_normal=1
+" let g:conoline_use_colorscheme_default_normal=1
 " let g:conoline_color_normal_dark = 'guibg=#5aa4ae'
 " let g:conoline_color_normal_dark = 'guibg=#d4eceb'
 " let g:conoline_color_normal_dark = 'guibg=#f8c6b5'
@@ -562,3 +734,41 @@ let g:conoline_use_colorscheme_default_normal=1
 
 nnoremap <silent>]b :BufferLineCycleNext<CR>
 nnoremap <silent>[b :BufferLineCyclePrev<CR>
+
+
+" C-e to zoom in the current buffer
+" C-x to zoom out the current buffer
+nnoremap <C-e> <C-W>>5
+nnoremap <C-x> <C-W><5
+
+set winminwidth=20
+" set winminheight=20
+
+" floaterm
+nnoremap <C-t> :FloatermToggle<CR>
+let g:floaterm_autoinsert=0
+let g:floaterm_height=0.9
+let g:floaterm_width=0.8
+
+inoremap <C-f> <C-[><C-w><C-w><CR>
+
+" recall last search window
+nnoremap <Leader>l :Leaderf! --recall<CR>
+
+" coc-git
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" navigate conflicts of current buffer
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap gc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
+

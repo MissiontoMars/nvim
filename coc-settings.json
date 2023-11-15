@@ -13,21 +13,22 @@
   "clangd.arguments": ["--background-index=false"],
   "clangd.disableDiagnostics": true,
   "languageserver": {
-      "coc-clangd":
-      {
-  "args": ["--resource-dir=/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include","--background-index=false"],
-        "path": "/Library/Developer/CommandLineTools/usr/bin/clangd",
-        "command": "clangd",
-        "rootPatterns": ["compile_flags.txt",
-                      "compile_commands.json"],
-        "filetypes":["c",
-                  "cc",
-                  "cpp",
-                  "c++",
-                  "objc",
-                  "objcpp"]
+      "coc-clangd": {
+        "args": ["--resource-dir=/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include","--background-index=false"],
+              "path": "/Library/Developer/CommandLineTools/usr/bin/clangd",
+              "command": "clangd",
+              "rootPatterns": [".git/", "compile_flags.txt",
+                            "compile_commands.json"],
+              "filetypes":["h,c",
+                        "cc",
+                        "cpp",
+                        "c++",
+                        "objc",
+                        "objcpp"]
       }
     },
-  "colors.filetypes": ["*"]
+  "colors.filetypes": ["*"],
+  "git.addGBlameToBufferVar": true,
+  "list.previewSplitRight": true
 }
 
