@@ -132,6 +132,8 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'nvim-lualine/lualine.nvim'
 
+  Plug 'kassio/neoterm'
+
 call plug#end()
 " =======================
 " ===   plugins  end  ===
@@ -461,21 +463,35 @@ tnoremap <Esc> <C-\><C-n><CR>
 
 " ToggleTerminal
 " set
-let g:toggleterm_terminal_mapping = '<C-t>'
+" let g:toggleterm_terminal_mapping = '<C-t>'
 
-lua << EOF
-require'toggleterm'.setup {
-  persist_size = false,
+" set
+autocmd TermEnter term://*toggleterm#*
+      \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+
+" By applying the mappings this way you can pass a count to your
+" mapping to open a specific window.
+" For example: 2<C-t> will open terminal 2
+nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
+
+lua << END
+require("toggleterm").setup{
+  open_mapping = [[<c-\>]],
+  start_in_insert = false,
   direction = 'vertical',
-  size = 100,
-  shade_filetypes = { "none", "fzf" },
-  highlights = {
-    Normal = {
-      guibg = 'black',
-    },
-  },
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 25
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.5
+    end
+  end,
+  shade_terminals = false,
+  close_on_exit = true, -- close the terminal window when the process exits
+  persist_mode = false,
 }
-EOF
+END
 
 lua << EOF
 require'nvim-tree'.setup {
@@ -749,10 +765,12 @@ set winminwidth=20
 " set winminheight=20
 
 " floaterm
-nnoremap <C-t> :FloatermToggle<CR>
-let g:floaterm_autoinsert=0
-let g:floaterm_height=0.9
-let g:floaterm_width=0.8
+" nnoremap <C-t> :FloatermToggle<CR>
+" nnoremap <C-n> :FloatermNext<CR>
+" nnoremap <C-p> :FloatermPrev<CR>
+" let g:floaterm_autoinsert=0
+" let g:floaterm_height=0.9
+" let g:floaterm_width=0.8
 
 inoremap <C-f> <C-[><C-w><C-w><CR>
 

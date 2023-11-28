@@ -10,11 +10,10 @@
   "cmake.formatter": "cmake-format",
   "clangd.path":"/Library/Developer/CommandLineTools/usr/bin/clangd",
   "clangd.inlayHints.enable": false,
-  "clangd.arguments": ["--background-index=false"],
   "clangd.disableDiagnostics": true,
   "languageserver": {
       "coc-clangd": {
-        "args": ["--resource-dir=/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include","--background-index=false"],
+        "args": ["--resource-dir=/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include"],
               "path": "/Library/Developer/CommandLineTools/usr/bin/clangd",
               "command": "clangd",
               "rootPatterns": [".git/", "compile_flags.txt",
