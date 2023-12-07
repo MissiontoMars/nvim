@@ -171,69 +171,6 @@ nmap <leader>f :Leaderf file<CR>
 nmap <leader>b :Leaderf! buffer<CR>
 nmap <leader>F :Leaderf rg <CR>
 let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
-" let g:Lf_RootMarkers = ['.git', '.hg', '.svn']
-" A - the nearest ancestor of current file that contains one of directories
-"         or files defined in |g:Lf_RootMarkers|. Fall back to 'c' if no such
-"         ancestor directory found.
-" let g:Lf_WorkingDirectoryMode = 'a'
-" let g:Lf_WorkingDirectory = finddir('.git', '.;')
-
-" let g:Lf_PopupColorscheme = 'vscode'
-
-" I don't know why dark is used.
-"let g:Lf_PopupPalette = {
-"    \  'light': {
-"    \      'Lf_hl_match': {
-"    \                'gui': 'NONE',
-"    \                'font': 'NONE',
-"    \                'guifg': 'NONE',
-"    \                'guibg': 'lightgrey',
-"    \                'cterm': 'NONE',
-"    \                'ctermfg': 'NONE',
-"    \                'ctermbg': '236'
-"    \              },
-"    \      'Lf_hl_cursorline': {
-"    \                'gui': 'NONE',
-"    \                'font': 'NONE',
-"    \                'guifg': 'NONE',
-"    \                'guibg': 'lightgrey',
-"    \                'cterm': 'NONE',
-"    \                'ctermfg': 'NONE',
-"    \                'ctermbg': '236'
-"    \              },
-"    \      },
-"    \  'dark': {
-"    \      'Lf_hl_match': {
-"    \                'gui': 'NONE',
-"    \                'font': 'NONE',
-"    \                'guifg': 'red',
-"    \                'guibg': 'lightgrey',
-"    \                'cterm': 'NONE',
-"    \                'ctermfg': 'red',
-"    \                'ctermbg': '236'
-"    \              },
-"    \      'Lf_hl_match0': {
-"    \                'gui': 'NONE',
-"    \                'font': 'NONE',
-"    \                'guifg': 'red',
-"    \                'guibg': 'lightgrey',
-"    \                'cterm': 'NONE',
-"    \                'ctermfg': 'red',
-"    \                'ctermbg': '236'
-"    \              },
-"    \      'Lf_hl_cursorline': {
-"    \                'gui': 'NONE',
-"    \                'font': 'NONE',
-"    \                'guifg': 'red',
-"    \                'guibg': 'lightgrey',
-"    \                'cterm': 'NONE',
-"    \                'ctermfg': 'red',
-"    \                'ctermbg': '236'
-"    \              },
-"    \      },
-"    \  }
-
-
 
 " ==== cateduo/vsdark.nvim ====
 
