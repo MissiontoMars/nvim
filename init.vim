@@ -123,8 +123,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'vim-python/python-syntax'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-  Plug 'ahmedkhalf/project.nvim'
-
   " Plug 'folke/flash.nvim'
 
   " AI
@@ -133,6 +131,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'nvim-lualine/lualine.nvim'
 
   Plug 'kassio/neoterm'
+
+  " auto highlight
+  " Plug 'RRethy/vim-illuminate'
+  Plug 'echasnovski/mini.cursorword', { 'branch': 'stable' }
 
 call plug#end()
 " =======================
@@ -317,7 +319,7 @@ require('lualine').setup {
     },
     ignore_focus = {},
     always_divide_middle = true,
-    globalstatus = false,
+    globalstatus = true,
     refresh = {
       statusline = 1000,
       tabline = 1000,
@@ -327,8 +329,13 @@ require('lualine').setup {
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
-    lualine_x = {'b:coc_git_blame', 'encoding', 'fileformat', 'filetype'},
+    lualine_c = {
+                  {'filename',
+                    path = 1,
+                  }
+                },
+    -- lualine_x = {'b:coc_git_blame', 'encoding', 'fileformat', 'filetype'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
@@ -578,15 +585,6 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
-lua << EOF
-  require("project_nvim").setup {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-    patterns = { ".git", "Makefile", "*.sln", "build/env.sh" },
-  }
-EOF
-
 "lua << EOF
 "    require('flash').setup{
 "        search = {
@@ -628,29 +626,14 @@ nnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -g !*test* -e %s ", expand("<cwor
 let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']
 let g:rooter_change_directory_for_non_project_files = ''
 
+lua << END
+require('mini.cursorword').setup{
+  -- Delay (in ms) between when cursor moved and when highlighting appeared
+  delay = 100,
+}
+END
 
-" Highlight all instances of word under cursor, when idle.
-" Useful when studying strange source code.
-" Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-function! AutoHighlightToggle()
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=4000
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: ON'
-    return 1
-  endif
-endfunction
+
 
 " vim-bbye
 " Buffer delete vs wipeout
