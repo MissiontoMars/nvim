@@ -86,10 +86,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
   Plug 'godlygeek/tabular'
-  " Plug 'preservim/vim-markdown'
   Plug 'elzr/vim-json'
-  Plug 'plasticboy/vim-markdown'
-  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 
   Plug 'nvim-lua/plenary.nvim'
   Plug 'Shatur/neovim-session-manager'
@@ -102,7 +99,7 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'miyakogi/conoline.vim'
 
-  Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+  Plug 'akinsho/bufferline.nvim', { 'tag': 'v4.*' }
 
   Plug 'nyngwang/NeoZoom.lua'
 
@@ -135,6 +132,10 @@ call plug#begin('~/.config/nvim/plugged')
   " auto highlight
   " Plug 'RRethy/vim-illuminate'
   Plug 'echasnovski/mini.cursorword', { 'branch': 'stable' }
+
+  " navigate
+  Plug 'cbochs/portal.nvim'
+
 
 call plug#end()
 " =======================
@@ -360,6 +361,8 @@ nmap <silent> gD :tab sp<CR><Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+" call coc#config('list', { 'maxPreviewHeight': 50 })
+call coc#config('list', { 'height': 50 })
 
 function! s:generate_compile_commands()
   if empty(glob('CMakeLists.txt'))
@@ -460,7 +463,7 @@ require('session_manager').setup({
 })
 require('bufferline').setup {
   options = {
-    mode = "buffers", -- set to "tabs" to only show tabpages instead
+    mode = "tabs", -- set to "tabs" to only show tabpages instead
     numbers = "ordinal",
     close_command = "bdelete! %d",       -- can be a string | function, see "Mouse actions"
     right_mouse_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
@@ -517,7 +520,6 @@ require('bufferline').setup {
     color_icons = true, -- whether or not to add the filetype icon highlights
     show_buffer_icons = true, -- disable filetype icons for buffers
     show_buffer_close_icons = true,
-    show_buffer_default_icon = true, -- whether or not an unrecognised filetype should show a default icon
     show_close_icon = true,
     show_tab_indicators = true,
     persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
@@ -634,7 +636,6 @@ require('mini.cursorword').setup{
 END
 
 
-
 " vim-bbye
 " Buffer delete vs wipeout
 " Vim has two commands for closing a buffer: :bdelete and :bwipeout. The former removes the file from the buffer list, clears its options, variables and mappings. However, it remains in the jumplist, so Ctrl-o takes you back and reopens the file. If that's not what you want, use :bwipeout or Bbye's equivalent :Bwipeout where you would've used :bdelete.
@@ -646,22 +647,6 @@ filetype plugin on
 syntax on
  let g:vimwiki_list = [{'path': '~/vimwiki/',
                        \ 'syntax': 'markdown', 'ext': '.md'}]
-
-" vim-markdown
-" disable header folding
-let g:vim_markdown_folding_disabled = 1
-
-" do not use conceal feature, the implementation is not so good
-let g:vim_markdown_conceal = 0
-
-" disable math tex conceal feature
-let g:tex_conceal = ""
-let g:vim_markdown_math = 1
-
-" support front matter of various format
-let g:vim_markdown_frontmatter = 1  " for YAML format
-let g:vim_markdown_toml_frontmatter = 1  " for TOML format
-let g:vim_markdown_json_frontmatter = 1  " for JSON format
 
 " Fix cursor missing
 let g:coc_disable_transparent_cursor = 1

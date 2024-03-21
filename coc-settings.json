@@ -27,6 +27,7 @@
       }
     },
   "colors.filetypes": ["*"],
+  "colors.enable": true,
   "git.addGBlameToBufferVar": true,
   "list.previewSplitRight": true
 }
